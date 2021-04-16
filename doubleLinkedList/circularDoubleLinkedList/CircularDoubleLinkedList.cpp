@@ -1,4 +1,3 @@
-#include <iostream>
 #include "CircularDoubleLinkedList.h"
 #include "../DoubleLinkedList.h"
 

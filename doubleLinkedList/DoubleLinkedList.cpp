@@ -1,4 +1,4 @@
-#include <iostream>
+#include <stdio.h>
 #include "DoubleLinkedList.h"
 
 template <class T>
@@ -11,6 +11,9 @@ DoubleLinkedList<T>::DoubleLinkedList()
 template <class T>
 DoubleLinkedList<T>::~DoubleLinkedList()
 {
+    if (l == NULL)
+        return;
+
     NODE *p = l->next;
     if (p == NULL)
     {
