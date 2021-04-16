@@ -5,7 +5,6 @@ template <class T>
 CircularDoubleLinkedList<T>::CircularDoubleLinkedList()
 {
     this->l = new typename DoubleLinkedList<T>::NODE;
-    this->l->data = -999;
     this->l->prev = this->l;
     this->l->next = this->l;
     this->size = 0;
