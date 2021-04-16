@@ -21,7 +21,7 @@ public:
 
     void insert(T key, typename DoubleLinkedList<T>::NODE *p);
 
-    void del(typename DoubleLinkedList<T>::NODE *&p);
+    void del(typename DoubleLinkedList<T>::NODE *p);
 
     typename DoubleLinkedList<T>::NODE *search(T key);
 };

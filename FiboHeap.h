@@ -6,18 +6,27 @@ template <class T>
 class FiboHeap
 {
 private:
-    struct node
+    class Node
     {
+    private:
         int key;
         T data;
-        CircularDoubleLinkedList<node*> rootList;
-    };
 
-    typedef node NODE;
+    public:
+        CircularDoubleLinkedList<Node *> children;
+
+        Node(int key, T data);
+        ~Node();
+
+        int getKey();
+        
+        T getData();
+        void setData(T data);
+    };
 
     int size;
     int n;
-    CircularDoubleLinkedList<node*> rootList;
+    CircularDoubleLinkedList<Node *> rootList;
 
 public:
     FiboHeap();
@@ -25,7 +34,9 @@ public:
 
     void insert(int key, T data);
 
-    NODE *minimum();
+    Node *minimum();
+
+    Node *extractMin();
 };
 
 #include "FiboHeap.cpp"

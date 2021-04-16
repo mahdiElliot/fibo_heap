@@ -38,7 +38,7 @@ public:
 
     void insert(T key, NODE *p);
 
-    void del(NODE *&p);
+    void del(NODE *p);
 
     T retrieve(NODE *p);
 

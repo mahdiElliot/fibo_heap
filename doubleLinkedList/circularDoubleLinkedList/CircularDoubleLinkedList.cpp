@@ -76,9 +76,9 @@ void CircularDoubleLinkedList<T>::insert(T key, typename DoubleLinkedList<T>::NO
 }
 
 template <class T>
-void CircularDoubleLinkedList<T>::del(typename DoubleLinkedList<T>::NODE *&p)
+void CircularDoubleLinkedList<T>::del(typename DoubleLinkedList<T>::NODE *p)
 {
-    if (p == NULL || this->l->next = this->l)
+    if (p == NULL || this->l->next == this->l)
         return;
 
     this->size--;
@@ -89,7 +89,7 @@ void CircularDoubleLinkedList<T>::del(typename DoubleLinkedList<T>::NODE *&p)
     q->prev = p->prev;
 
     delete p;
-    p = q;
+    p = NULL;
 }
 
 template <class T>

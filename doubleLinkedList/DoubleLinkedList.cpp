@@ -17,6 +17,7 @@ DoubleLinkedList<T>::~DoubleLinkedList()
     if (p == NULL)
     {
         delete l;
+        l = NULL;
         return;
     }
 
@@ -27,6 +28,7 @@ DoubleLinkedList<T>::~DoubleLinkedList()
         if (q == NULL)
         {
             delete l;
+            l = NULL;
             return;
         }
         p = q;
@@ -126,7 +128,7 @@ void DoubleLinkedList<T>::insert(T key, NODE *p)
 }
 
 template <class T>
-void DoubleLinkedList<T>::del(NODE *&p)
+void DoubleLinkedList<T>::del(NODE *p)
 {
     if (p == NULL)
         return;
@@ -134,10 +136,13 @@ void DoubleLinkedList<T>::del(NODE *&p)
     size--;
     if (p == l)
     {
-        l = l->next;
-        l->prev = NULL;
-        delete p;
-        p = l;
+        if (l->next != NULL)
+        {
+            l = l->next;
+            l->prev = NULL;
+        }
+        delete l;
+        l = NULL;
     }
     else
     {
@@ -148,7 +153,7 @@ void DoubleLinkedList<T>::del(NODE *&p)
         p->prev->next = q;
 
         delete p;
-        p = q;
+        p = NULL;
     }
 }
 
