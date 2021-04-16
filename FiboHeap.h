@@ -1,27 +1,32 @@
 #ifndef _FIBOHEAP_H_
 #define _FIBOHEAP_H_
 #include "doubleLinkedList/circularDoubleLinkedList/CircularDoubleLinkedList.h"
+
 template <class T>
 class FiboHeap
 {
 private:
-    struct node {
+    struct node
+    {
+        int key;
         T data;
-        node **chid;
-    }
+        CircularDoubleLinkedList<node*> rootList;
+    };
 
     typedef node NODE;
 
-    NODE *min;
-    CircularDoubleLinkedList<NODE> rootList;
+    int size;
+    int n;
+    CircularDoubleLinkedList<node*> rootList;
 
 public:
     FiboHeap();
     ~FiboHeap();
 
-    void insert(T data);
+    void insert(int key, T data);
 
-
-
+    NODE *minimum();
 };
+
+#include "FiboHeap.cpp"
 #endif

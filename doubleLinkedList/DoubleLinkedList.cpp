@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include "DoubleLinkedList.h"
 
 template <class T>
@@ -157,7 +156,7 @@ template <class T>
 T DoubleLinkedList<T>::retrieve(NODE *p)
 {
     if (p == NULL)
-        return -9999;
+        return NULL;
 
     return p->data;
 }

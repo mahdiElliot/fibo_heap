@@ -1,14 +1,14 @@
 #include <iostream>
+#include "FiboHeap.h"
 
 using namespace std;
 
 int main()
 {
-    // list.insert(5,list.first());
-    // list.insert(10,list.first());
-    // list.insert(34,list.next(list.first()));
-    // cout<<list.retrieve(list.prev(list.prev(list.first())))<<endl;
-
-    
+    FiboHeap<int> heap;
+    heap.insert(5, 70);
+    heap.insert(9, 80);
+    heap.insert(3, 90);
+    cout<<heap.minimum()->data;
     return 0;
 }

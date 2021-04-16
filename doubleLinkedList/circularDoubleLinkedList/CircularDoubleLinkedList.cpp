@@ -59,6 +59,9 @@ bool CircularDoubleLinkedList<T>::isEmpty()
 template <class T>
 void CircularDoubleLinkedList<T>::insert(T key, typename DoubleLinkedList<T>::NODE *p)
 {
+    if (p == NULL)
+        p = first();
+
     this->size++;
 
     typename DoubleLinkedList<T>::NODE *q = new typename DoubleLinkedList<T>::NODE;
@@ -75,7 +78,7 @@ void CircularDoubleLinkedList<T>::insert(T key, typename DoubleLinkedList<T>::NO
 template <class T>
 void CircularDoubleLinkedList<T>::del(typename DoubleLinkedList<T>::NODE *&p)
 {
-    if (this->l->next = this->l)
+    if (p == NULL || this->l->next = this->l)
         return;
 
     this->size--;
