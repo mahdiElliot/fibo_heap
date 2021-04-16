@@ -4,7 +4,7 @@
 template <class T>
 class DoubleLinkedList
 {
-private:
+protected:
     struct node
     {
         T data;
@@ -16,6 +16,7 @@ private:
     NODE *l;
     int size;
 
+private:
     void reverse1(NODE *&head);
 
 public:
@@ -35,13 +36,13 @@ public:
 
     void makeEmpty();
 
-    void insert(T key , NODE *p);
+    void insert(T key, NODE *p);
 
-    void del(node *&p);
+    void del(NODE *&p);
 
     T retrieve(NODE *p);
 
-    node *search(T key);
+    NODE *search(T key);
 
     void reverse();
 };

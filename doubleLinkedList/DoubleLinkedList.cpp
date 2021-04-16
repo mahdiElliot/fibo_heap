@@ -11,7 +11,25 @@ DoubleLinkedList<T>::DoubleLinkedList()
 template <class T>
 DoubleLinkedList<T>::~DoubleLinkedList()
 {
-   makeEmpty();
+    NODE *p = l->next;
+    if (p == NULL)
+    {
+        delete l;
+        return;
+    }
+
+    while (p != l)
+    {
+        NODE *q = p->next;
+        delete p;
+        if (q == NULL)
+        {
+            delete l;
+            return;
+        }
+        p = q;
+    }
+    delete p;
 }
 
 template <class T>
