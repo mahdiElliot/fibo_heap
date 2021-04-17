@@ -149,8 +149,10 @@ void DoubleLinkedList<T>::del(NODE *p)
             l = l->next;
             l->prev = NULL;
         }
-        delete l;
-        l = NULL;
+        else
+            l = NULL;
+        delete p;
+        p = NULL;
     }
     else
     {
@@ -169,7 +171,7 @@ template <class T>
 T DoubleLinkedList<T>::retrieve(NODE *p)
 {
     if (p == NULL)
-        return (T) NULL;
+        return (T)NULL;
 
     return p->data;
 }
@@ -223,6 +225,7 @@ void DoubleLinkedList<T>::concat(DoubleLinkedList<T> &list)
 template <class T>
 void DoubleLinkedList<T>::display()
 {
+    if (isEmpty()) return;
     std::cout << first()->data << " ";
     NODE *p = next(first());
     while (p != NULL && p != l)
