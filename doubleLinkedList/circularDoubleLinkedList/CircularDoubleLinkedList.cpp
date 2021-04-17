@@ -106,3 +106,23 @@ typename DoubleLinkedList<T>::NODE *CircularDoubleLinkedList<T>::search(T key)
 
     return p;
 }
+
+template <class T>
+void CircularDoubleLinkedList<T>::concat(CircularDoubleLinkedList<T> &list)
+{
+    if (list.isEmpty())
+        return;
+    if (isEmpty())
+    {
+        this->l = list.l;
+        return;
+    }
+
+    typename DoubleLinkedList<T>::NODE *p = list.first();
+    list.l->prev->next = this->l;
+    p->prev = this->l->prev;
+    this->l->prev->next = p;
+    this->l->prev = list.l->prev;
+    list.l->next = list.l;
+    list.l->prev = list.l;
+}

@@ -23,6 +23,8 @@ public:
 
     void del(typename DoubleLinkedList<T>::NODE *p);
 
+    void concat(CircularDoubleLinkedList<T> &list);
+
     typename DoubleLinkedList<T>::NODE *search(T key);
 };
 

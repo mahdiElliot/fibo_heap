@@ -24,16 +24,24 @@ DoubleLinkedList<T>::~DoubleLinkedList()
     while (p != l)
     {
         NODE *q = p->next;
-        delete p;
         if (q == NULL)
         {
+            delete p;
+            p = NULL;
             delete l;
             l = NULL;
             return;
         }
+        delete p;
         p = q;
     }
+    if (p != l)
+    {
+        delete l;
+        l = NULL;
+    }
     delete p;
+    p = NULL;
 }
 
 template <class T>
@@ -161,7 +169,7 @@ template <class T>
 T DoubleLinkedList<T>::retrieve(NODE *p)
 {
     if (p == NULL)
-        return NULL;
+        return (T) NULL;
 
     return p->data;
 }
@@ -188,4 +196,40 @@ void DoubleLinkedList<T>::reverse()
 
     while (l->prev != NULL) //for sure must be done
         l = l->prev;
+}
+
+template <class T>
+void DoubleLinkedList<T>::concat(DoubleLinkedList<T> &list)
+{
+    NODE *head = list.first();
+
+    if (head == NULL)
+        return;
+
+    if (l == NULL)
+    {
+        l = head;
+        return;
+    }
+
+    NODE *p = l;
+    while (p->next != NULL)
+        p = p->next;
+    p->next = head;
+    head->prev = p;
+    list.l = NULL;
+}
+
+template <class T>
+void DoubleLinkedList<T>::display()
+{
+    std::cout << first()->data << " ";
+    NODE *p = next(first());
+    while (p != NULL && p != l)
+    {
+        std::cout << p->data << " ";
+        p = p->next;
+    }
+
+    std::cout << '\n';
 }

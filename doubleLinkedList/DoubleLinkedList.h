@@ -40,11 +40,15 @@ public:
 
     void del(NODE *p);
 
+    void concat(DoubleLinkedList<T> &list);
+
     T retrieve(NODE *p);
 
     NODE *search(T key);
 
     void reverse();
+
+    void display();
 };
 
 #include "DoubleLinkedList.cpp"
