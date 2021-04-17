@@ -125,4 +125,6 @@ void CircularDoubleLinkedList<T>::concat(CircularDoubleLinkedList<T> &list)
     this->l->prev = list.l->prev;
     list.l->next = list.l;
     list.l->prev = list.l;
+    this->size += list.size;
+    list.size = 0;
 }

@@ -70,6 +70,14 @@ template <class T>
 typename DoubleLinkedList<T>::NODE *DoubleLinkedList<T>::first() { return l; }
 
 template <class T>
+typename DoubleLinkedList<T>::NODE *DoubleLinkedList<T>::castToNode(void *p)
+{
+    if (p == NULL)
+        return NULL;
+    return (NODE *)p;
+}
+
+template <class T>
 typename DoubleLinkedList<T>::NODE *DoubleLinkedList<T>::next(typename DoubleLinkedList<T>::NODE *p)
 {
     if (p == NULL)
@@ -177,6 +185,14 @@ T DoubleLinkedList<T>::retrieve(NODE *p)
 }
 
 template <class T>
+void DoubleLinkedList<T>::changeData(T data, NODE *p)
+{
+    if (p == NULL)
+        return;
+    p->data = data;
+}
+
+template <class T>
 typename DoubleLinkedList<T>::NODE *DoubleLinkedList<T>::search(T key)
 {
     NODE *p = l;
@@ -220,12 +236,15 @@ void DoubleLinkedList<T>::concat(DoubleLinkedList<T> &list)
     p->next = head;
     head->prev = p;
     list.l = NULL;
+    size += list.size;
+    list.size = 0;
 }
 
 template <class T>
 void DoubleLinkedList<T>::display()
 {
-    if (isEmpty()) return;
+    if (isEmpty())
+        return;
     std::cout << first()->data << " ";
     NODE *p = next(first());
     while (p != NULL && p != l)

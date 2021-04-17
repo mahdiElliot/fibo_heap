@@ -28,6 +28,8 @@ public:
 
     NODE *first();
 
+    NODE *castToNode(void *p);
+
     NODE *next(NODE *p);
 
     NODE *prev(NODE *p);
@@ -43,6 +45,8 @@ public:
     void concat(DoubleLinkedList<T> &list);
 
     T retrieve(NODE *p);
+
+    void changeData(T data, NODE *p);
 
     NODE *search(T key);
 
