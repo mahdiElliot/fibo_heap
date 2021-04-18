@@ -16,6 +16,7 @@ private:
         int key;
         bool mark;
         void *index;
+        void *leafIndex;
         CircularDoubleLinkedList<Node *> children;
 
         Node(int key, T data);
@@ -30,6 +31,8 @@ private:
     };
 
     int size;
+
+    CircularDoubleLinkedList<Node *> leafs;
 
     void consolidate();
 
@@ -53,9 +56,17 @@ public:
 
     Node *extractMin();
 
+    Node *deleteKey(Node *x);
+
     void unionHeap(FiboHeap<T> &h);
 
     void decreaseKey(int key, Node *x);
+
+    void increaseKey(int key, Node *x);
+
+    void changeKey(int key, Node *x);
+
+    void prune(int r);
 };
 
 #include "FiboHeap.cpp"

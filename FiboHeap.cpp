@@ -66,6 +66,7 @@ void FiboHeap<T>::insert(int key, T data)
 {
     Node *p = new Node(key, data, false);
     p->parent = NULL;
+    p->leafIndex = NULL;
     if (this->rootList.isEmpty())
     {
         this->rootList.insert(p, this->rootList.first());
@@ -123,7 +124,7 @@ void FiboHeap<T>::findNewMin()
 template <class T>
 void FiboHeap<T>::consolidate()
 {
-    int dn = (log(size)) / (log(2));
+    int dn = (log(size + 1)) / (log(2));
     void *arr[dn + 1] = {NULL};
     void *x = this->rootList.first();
     arr[this->rootList.retrieve(this->rootList.first())->children.Size()] = x;
@@ -145,6 +146,14 @@ void FiboHeap<T>::consolidate()
                 temp2->parent = temp;
                 temp2->mark = false;
                 temp->children.insert(temp2, temp->children.first());
+
+                if (temp2->children.isEmpty())
+                {
+                    this->leafs.insert(temp2, this->leafs.first());
+                    temp2->leafIndex =
+                        this->leafs.Size() == 1 ? this->leafs.first() : this->leafs.next(this->leafs.first());
+                }
+
                 temp2->index = temp->children.next(temp->children.first());
                 this->rootList.del(this->rootList.castToNode(arr[degree]));
             }
@@ -154,14 +163,20 @@ void FiboHeap<T>::consolidate()
                 temp->parent = temp2;
                 temp->mark = false;
                 temp2->children.insert(temp, temp2->children.first());
+
+                if (temp->children.isEmpty())
+                {
+                    this->leafs.insert(temp, this->leafs.first());
+                    temp->leafIndex =
+                        this->leafs.Size() == 1 ? this->leafs.first() : this->leafs.next(this->leafs.first());
+                }
+
                 temp->index = temp2->children.next(temp2->children.first());
                 this->rootList.del(this->rootList.castToNode(current));
                 current = temp2->index;
-
             }
             arr[degree] = NULL;
             degree++;
-
         }
         arr[degree] = x;
 
@@ -181,10 +196,19 @@ typename FiboHeap<T>::Node *FiboHeap<T>::extractMin()
     if (ret->children.Size())
     {
         ret->children.retrieve(ret->children.first())->parent = NULL;
+        void *l = ret->children.retrieve(ret->children.first())->leafIndex;
+        if (l != NULL)
+            this->leafs.del(this->leafs.castToNode(l));
+        ret->children.retrieve(ret->children.first())->leafIndex = NULL;
+
         void *i = ret->children.next(ret->children.first());
         while (ret->children.castToNode(i) != ret->children.first())
         {
             ret->children.retrieve(ret->children.castToNode(i))->parent = NULL;
+            l = ret->children.retrieve(ret->children.castToNode(i))->leafIndex;
+            if (l != NULL)
+                this->leafs.del(this->leafs.castToNode(l));
+            ret->children.retrieve(ret->children.castToNode(i))->leafIndex = NULL;
             i = ret->children.next(ret->children.castToNode(i));
         }
     }
@@ -215,6 +239,7 @@ void FiboHeap<T>::unionHeap(FiboHeap<T> &h)
         h.rootList.changeData(temp, h.rootList.first());
     }
 
+    this->leafs.concat(h.leafs);
     this->rootList.concat(h.rootList);
     this->size += h.size;
     h.size = 0;
@@ -226,6 +251,11 @@ void FiboHeap<T>::cut(Node *x)
     x->parent->children.del(x->parent->children.castToNode(x->index));
     x->parent = NULL;
     x->mark = false;
+
+    if (x->leafIndex != NULL)
+        this->leafs.del(this->leafs.castToNode(x->leafIndex));
+    x->leafIndex = NULL;
+
     this->rootList.insert(x, this->rootList.first());
     x->index = this->rootList.next(this->rootList.first());
 }
@@ -266,5 +296,52 @@ void FiboHeap<T>::decreaseKey(int key, Node *x)
         this->rootList.changeData(temp, this->rootList.castToNode(temp->index));
         this->rootList.changeData(x, this->rootList.first());
         x->index = this->rootList.next(this->rootList.first());
+    }
+}
+
+template <class T>
+typename FiboHeap<T>::Node *FiboHeap<T>::deleteKey(Node *x)
+{
+    decreaseKey((int)-INFINITY, x);
+    extractMin();
+    return x;
+}
+
+template <class T>
+void FiboHeap<T>::increaseKey(int key, Node *x)
+{
+    if (key <= x->getKey())
+        return;
+
+    deleteKey(x);
+    insert(key, x->data);
+}
+
+template <class T>
+void FiboHeap<T>::changeKey(int key, Node *x)
+{
+    if (key < x->getKey())
+        decreaseKey(key, x);
+    else
+        increaseKey(key, x);
+}
+
+template <class T>
+void FiboHeap<T>::prune(int r)
+{
+    if (r >= size)
+        r = size;
+    int i = 0;
+    while (i < r && !this->leafs.isEmpty())
+    {
+        Node *q = this->leafs.retrieve(this->leafs.first());
+        this->leafs.del(this->leafs.first());
+        deleteKey(q);
+        i++;
+    }
+    while (i < r)
+    {
+        extractMin();
+        i++;
     }
 }
