@@ -9,11 +9,13 @@ private:
     class Node
     {
     private:
-        int key;
-        bool mark;
         T data;
 
     public:
+        Node *parent;
+        int key;
+        bool mark;
+        void *index;
         CircularDoubleLinkedList<Node *> children;
 
         Node(int key, T data);
@@ -25,27 +27,35 @@ private:
 
         T getData();
         void setData(T data);
-
-        bool getMark();
     };
 
     int size;
-    int n;
-    CircularDoubleLinkedList<Node *> rootList;
 
-    void consolidate(int degree);
+    void consolidate();
 
     void findNewMin();
 
+    void cut(Node *x);
+
+    void cascadeCut(Node *y);
+
 public:
+    CircularDoubleLinkedList<Node *> rootList;
+
     FiboHeap();
     ~FiboHeap();
+
+    int Size();
 
     void insert(int key, T data);
 
     Node *minimum();
 
     Node *extractMin();
+
+    void unionHeap(FiboHeap<T> &h);
+
+    void decreaseKey(int key, Node *x);
 };
 
 #include "FiboHeap.cpp"
