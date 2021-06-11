@@ -339,9 +339,4 @@ void FiboHeap<T>::prune(int r)
         deleteKey(q);
         i++;
     }
-    while (i < r)
-    {
-        extractMin();
-        i++;
-    }
 }
